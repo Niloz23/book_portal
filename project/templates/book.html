@@ -1,0 +1,69 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+book
+{% endblock title %}
+
+
+{% block content %}
+
+   <h1>новость № {{ book.id }}</h1>
+   <hr>
+   {% if book %}
+       <table class="table-bordered" width="100%">
+           <tr>
+               <th>Автор</th>
+               <th>Категория</th>
+               <th>Заголовок</th>
+               <th>Дата</th>
+               <th>Объявление</th>
+               <th>Автор книги</th>
+               <th>Год написания</th>
+               <th>изменить объявление</th>
+               <th>удалить объявление</th>
+               <th>фото</th>
+
+           </tr>
+           <tr align="left" class="{% cycle 'blue' 'white' %}">
+               <td width="5%" >{{ book.user }}</td>
+               <td width="5%">{{ book.get_category_display }}</td>
+               <td width="10%" >{{ book.head }}</td>
+               <td width="10%">{{ book.created_at|date:'d.m.Y H:i' }}</td>
+               <td width="10%">{{ book.descript|truncatechars:255 }}</td>
+               <td width="5%" >{{ book.author_of_book }}</td>
+               <td width="5%" >{{ book.year }}</td>
+               <td width="10%"><a href="/books/{{book.id}}/edit/">изменить</a></td>
+               <td width="10%"><a href="/books/{{book.id}}/delete/">удалить</a></td>
+               <td width="10%">
+                {% for photo in book.photo.all %}
+                 {{ photo }}
+                {% endfor %}
+               </td>
+           </tr>
+       </table>
+
+       <table class="table-bordered" width="100%">
+             <tr><th>отклики</th></tr>
+           <tr><th><p><a href="/comments/create/">написать отклик</a></p></th></tr>
+             {% for p in Books.all %}
+             {% if p.is_acept != False %}
+             <tr class="{% cycle 'blue' 'white' %}">
+               <td>
+                   пользователь {{ p.user }}<br>
+                   отклик {{ p.comment_text }}<br>
+                   отправлено {{ p.is_send }}<br>
+                   принято {{ p.is_acept }}<br>
+               </td>
+             </tr>
+             {% endif%}
+             {% endfor %}
+       </table>
+
+   {% else %}
+       <h2>Новостей нет!</h2>
+
+   {% endif %}
+
+<p><a href="/books/">ко всем новостям</a></p>
+
+{% endblock content %}
