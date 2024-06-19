@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_filters',
+    'rest_framework',
 
 ]
 
@@ -148,8 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    # 'allauth.account.auth_backends.AuthenticationBackend',
-    'allauth.socialaccount.auth_backends.SocialAccountBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 SITE_URL = 'http://127.0.0.1:8000'

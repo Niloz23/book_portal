@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.utils.html import format_html
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Book(models.Model):
@@ -32,6 +33,11 @@ class Book(models.Model):
         return f'{self.header}'
 
 
+    def get_absolute_url(self):
+        x = 'books_detail'
+        return reverse(x, args=[str(self.id)])
+
+
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, related_name='Books', on_delete=models.CASCADE)
@@ -42,6 +48,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.comment_text[:20]}'
+
+    def get_absolute_url(self):
+        x = 'books_detail'
+        return reverse(x, args=[str(self.id)])
 
 
 class Photo(models.Model):
@@ -54,6 +64,9 @@ class Photo(models.Model):
 
     def __str__(self):
         return format_html('<img src="{}" width="100" height="100" alt="">'.format(self.image.url))
+
+    def get_absolute_url(self):
+        return reverse('photos')
 
 
 class BookPhoto(models.Model):
