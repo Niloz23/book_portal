@@ -21,7 +21,6 @@ book
                <th>Год написания</th>
                <th>изменить объявление</th>
                <th>удалить объявление</th>
-               <th>фото</th>
 
            </tr>
            <tr align="left" class="{% cycle 'blue' 'white' %}">
@@ -30,7 +29,7 @@ book
                <td width="10%" >{{ book.head }}</td>
                <td width="10%">{{ book.created_at|date:'d.m.Y H:i' }}</td>
                <td width="10%">{{ book.descript|truncatechars:255 }}</td>
-               <td width="5%" >{{ book.author_of_book }}</td>
+               <td width="5%" >{{ book.author }}</td>
                <td width="5%" >{{ book.year }}</td>
                <td width="10%"><a href="/books/{{book.id}}/edit/">изменить</a></td>
                <td width="10%"><a href="/books/{{book.id}}/delete/">удалить</a></td>

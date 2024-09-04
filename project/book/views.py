@@ -9,9 +9,10 @@ from django.urls import reverse_lazy
 from .filters import CommentFilter
 
 
+
 def activation(request):
     if request.user.is_authenticated:
-        return redirect('/books/')
+        return redirect('/tasks/')
     else:
         if request.method == 'POST':
             form = MyActivationCodeForm(request.POST)
@@ -79,13 +80,6 @@ class BookCreate(LoginRequiredMixin, CreateView):
         author_id = author.values_list('id')[0][0]
         book.user_id = author_id
         book.save()
-        photos = self.request.FILES.getlist('photo')
-        if photos:
-            for photo in photos:
-                photo_obj = Photo(image=photo)
-                photo_obj.save()
-                book_photo_obj = BookPhoto(book=book, photo=photo_obj)
-                book_photo_obj.save()
         return super().form_valid(form)
 
 
@@ -94,11 +88,19 @@ class BookUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Book
     template_name = 'Book_edit.html'
 
+    def test_func(self):
+        book = self.get_object()
+        return self.request.user == book.user
+
 
 class BookDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Book
     template_name = 'book_delete.html'
     success_url = reverse_lazy('books_list')
+
+    def test_func(self):
+        book = self.get_object()
+        return self.request.user == book.user
 
 
 class CommentCreate(LoginRequiredMixin, CreateView):
@@ -145,8 +147,4 @@ class CommentsList(LoginRequiredMixin, ListView):
         return context
 
 
-class PhotoList(LoginRequiredMixin, ListView):
-    model = Photo
-    template_name = 'photos.html'
-    context_object_name = 'photos'
-    paginate_by = 10
+

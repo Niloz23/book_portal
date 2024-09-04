@@ -23,7 +23,7 @@
            Объявление <br>
            {{ book.descript|truncatechars:255 }} <br>
            Автор книги<br>
-           {{ book.author_of_book }}<br>
+           {{ book.author}}<br>
            Год написания <br>
            {{ book.year }}<br>
            прочитать объявление <br>
@@ -32,8 +32,6 @@
            <a href="/books/{{book.id}}/edit/">изменить</a> <br>
            удалить объявление <br>
            <a href="/books/{{book.id}}/delete/">удалить</a> <br>
-           фото <br>
-           {% for photo in book.photo.all %} {{ photo }} {% endfor %} <br>
            отклики <br>
            {% for comment in book.comments_set.all %}
            {{ comment }}<br>

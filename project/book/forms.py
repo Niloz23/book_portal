@@ -42,7 +42,7 @@ class BookForm(forms.ModelForm):
             'header',
             'descript',
             'year',
-            'author_of_book',
+            'author',
         ]
 
     def clean(self):
